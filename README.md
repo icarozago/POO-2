@@ -5,5 +5,5 @@ possuindo assim o cadastro de filmes, salas, sessões e vendas.
 O objetivo principal do projeto é adquirir maior conhecimento sobre Programação Orientada a Objetos. O objetivo
 subsequente é a criação de uma aplicação intuitiva e funcional.
 
-Esse projeto será desenvolvido por 3 alunos da Faculdade de Tecnologia da Unicamp. São eles: Bruno Kadri RA:______,
-Felipe Godoy RA:______ e Icaro Zago RA:169756.
+Esse projeto será desenvolvido por 3 alunos da Faculdade de Tecnologia da Unicamp. São eles: Bruno Kadri RA:165136,
+Felipe Godoy RA:167231 e Icaro Zago RA:169756.
