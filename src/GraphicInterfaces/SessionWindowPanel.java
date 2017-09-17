@@ -19,7 +19,7 @@ public class SessionWindowPanel extends javax.swing.JPanel {
      */
     public SessionWindowPanel() {
         initComponents();
-        for (String room : ReserchUtilities.findAllRooms()) {
+        for (String room : ReserchUtilities.findAllRoomsNumbers()) {
             comboBoxRoom.addItem(room);
         }
     }

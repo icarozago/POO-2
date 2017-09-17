@@ -14,15 +14,15 @@ import java.util.List;
  */
 public interface RoomInterface {
     
-    public void insertRoom (Room room);
+    public boolean insertRoom (Room room);
     
-    public void editRoom (Room room);
+    public boolean editRoom (Room room);
     
-    public void deleteRoom (int number);
+    public boolean deleteRoom (int number);
     
-    public List<Room> findAllRooms ();
+    //public List<Room> findAllRooms ();
     
-    public Room findRoomByNumber (int number);
+    public Room findRoomByNumber (Integer number);
     
     public List<Room> findRoomByCapacity (int capacity);
     
