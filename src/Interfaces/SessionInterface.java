@@ -14,7 +14,11 @@ import java.util.List;
  */
 public interface SessionInterface {
     
-    public void persistSession (Session session);
+    public boolean insertSession (Session session);
+    
+    public boolean editSession (Session session);
+    
+    public boolean deleteSession (Integer sessionId);
     
     public List<Session> findAllSessions ();
     

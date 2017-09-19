@@ -5,7 +5,8 @@
  */
 package Main;
 
-import GraphicInterfaces.RoomListing;
+import GraphicInterfaces.SessionListing;
+import GraphicInterfaces.SessionWindowPanel;
 
 /**
  *
@@ -17,8 +18,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        RoomListing roomListing = new RoomListing();
-        roomListing.setVisible(true);
+        SessionListing sessionListing = new SessionListing();
+        sessionListing.setVisible(true);
     }
 
 }
