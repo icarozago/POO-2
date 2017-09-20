@@ -13,15 +13,16 @@ import Main.Room;
  */
 public class RoomWindowPanel extends javax.swing.JFrame {
 
-    private boolean editMode;
+    private final boolean editMode;
     
-    private Integer roomId;
+    private final Integer roomId;
 
     /**
      * Creates new form RoomWindowPanel
      */
     public RoomWindowPanel() {
         editMode = false;
+        roomId = null;
         initComponents();
     }
 

@@ -12,16 +12,29 @@ import Utilities.ReserchUtilities;
  *
  * @author Icaro
  */
-public class SessionWindowPanel extends javax.swing.JPanel {
+public class SessionWindowPanel extends javax.swing.JFrame {
+
+    private final boolean editMode;
+
+    private final Integer sessionId;
 
     /**
      * Creates new form SessionWindowPanel
      */
     public SessionWindowPanel() {
         initComponents();
-        for (String room : ReserchUtilities.findAllRoomsNumbers()) {
-            comboBoxRoom.addItem(room);
-        }
+        ReserchUtilities.findAllRoomsNumbers().forEach((room) -> comboBoxRoom.addItem(room));
+        editMode = false;
+        sessionId = null;
+    }
+
+    public SessionWindowPanel(Session session) {
+        initComponents();
+        ReserchUtilities.findAllRoomsNumbers().forEach((room) -> comboBoxRoom.addItem(room));
+        comboBoxRoom.setSelectedItem(session.getRoom().getNumber());
+        textFieldHour.setText(session.getTime());
+        editMode = true;
+        sessionId = session.getId();
     }
 
     /**
@@ -38,6 +51,9 @@ public class SessionWindowPanel extends javax.swing.JPanel {
         textFieldHour = new javax.swing.JTextField();
         comboBoxRoom = new javax.swing.JComboBox<>();
         buttonSave = new javax.swing.JButton();
+        buttonDelete = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Hora:");
 
@@ -56,22 +72,32 @@ public class SessionWindowPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        buttonDelete.setText("Excluir");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(textFieldHour, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(buttonSave)
+                        .addComponent(textFieldHour))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonSave)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDelete))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(comboBoxRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboBoxRoom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,31 +111,87 @@ public class SessionWindowPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(comboBoxRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addComponent(buttonSave)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonSave)
+                    .addComponent(buttonDelete))
                 .addContainerGap())
         );
-    }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        Session session = new Session();
-        session.setTime(textFieldHour.getText());
-        session.setRoom(session.getRoom().findRoomByNumber(
-                Integer.parseInt(comboBoxRoom.getSelectedItem().toString())));
-        session.persistSession(session);
-    }//GEN-LAST:event_buttonSaveActionPerformed
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private void comboBoxRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxRoomActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxRoomActionPerformed
 
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        Session session = new Session();
+
+        session.setTime(textFieldHour.getText());
+        session.setRoom(ReserchUtilities.findRoomByNumber(
+                Integer.parseInt(comboBoxRoom.getSelectedItem().toString())));
+        session.setId(sessionId);
+
+        if (editMode) {
+            if (session.editSession(session)) {
+             this.setVisible(false);
+            }
+        } else {
+            if (session.insertSession(session)) {
+                this.setVisible(false);
+            }
+        }
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        Session session = new Session();
+        if (session.deleteSession(sessionId)) {
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SessionWindowPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SessionWindowPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SessionWindowPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SessionWindowPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new SessionWindowPanel().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonSave;
     private javax.swing.JComboBox<String> comboBoxRoom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField textFieldHour;
     // End of variables declaration//GEN-END:variables
-
 }
