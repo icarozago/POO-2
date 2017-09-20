@@ -14,6 +14,8 @@ import Main.Room;
 public class RoomWindowPanel extends javax.swing.JFrame {
 
     private boolean editMode;
+    
+    private Integer roomId;
 
     /**
      * Creates new form RoomWindowPanel
@@ -31,12 +33,14 @@ public class RoomWindowPanel extends javax.swing.JFrame {
      */
     public RoomWindowPanel(Room room) {
         editMode = true;
+        roomId = room.getId();
+        initComponents();
         textFieldCapacity.setText(String.valueOf(room.getCapacity()));
         textFieldNumber.setText(String.valueOf(room.getNumber()));
         if (room.getAir_conditioning()) {
-            comboBoxAirConditing.setSelectedIndex(1);
+            comboBoxAirConditing.setSelectedIndex(0);
         } else {
-            comboBoxAirConditing.setSelectedIndex(2);
+            comboBoxAirConditing.setSelectedIndex(1);
         }
     }
 
@@ -144,25 +148,29 @@ public class RoomWindowPanel extends javax.swing.JFrame {
         Room room = new Room();
         boolean arCondicionado;
 
-        if (comboBoxAirConditing.getSelectedItem().toString().equals("Sim")) {
-            arCondicionado = true;
-        } else {
-            arCondicionado = false;
-        }
+        arCondicionado = comboBoxAirConditing.getSelectedItem().toString().equals("Sim");
 
+        room.setId(roomId);
         room.setNumber(Integer.parseInt(textFieldNumber.getText()));
         room.setCapacity(Integer.parseInt(textFieldCapacity.getText()));
-        room.setAir_conditioning(Boolean.valueOf(arCondicionado));
+        room.setAir_conditioning(arCondicionado);
 
         if (editMode) {
-            room.editRoom(room);
+            if (room.editRoom(room)) {
+                this.setVisible(false);
+            }
         } else {
-            room.insertRoom(room);
+            if (room.insertRoom(room)) {
+                this.setVisible(false);
+            }
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
-        
+        Room room = new Room();
+        if (room.deleteRoom(roomId)) {
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
     /**

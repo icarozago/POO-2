@@ -5,7 +5,7 @@
  */
 package Main;
 
-import GraphicInterfaces.RoomWindowPanel;
+import GraphicInterfaces.RoomListing;
 
 /**
  *
@@ -17,8 +17,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        RoomWindowPanel teste = new RoomWindowPanel();
-        teste.setVisible(true);
+        RoomListing roomListing = new RoomListing();
+        roomListing.setVisible(true);
     }
 
 }
