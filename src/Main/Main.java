@@ -5,8 +5,7 @@
  */
 package Main;
 
-import GraphicInterfaces.SessionListing;
-import GraphicInterfaces.SessionWindowPanel;
+import GraphicInterfaces.Home;
 
 /**
  *
@@ -18,8 +17,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SessionListing sessionListing = new SessionListing();
-        sessionListing.setVisible(true);
+        Home home = new Home();
+        home.setVisible(true);
     }
 
 }

@@ -53,7 +53,7 @@ public class SessionWindowPanel extends javax.swing.JFrame {
         buttonSave = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Hora:");
 

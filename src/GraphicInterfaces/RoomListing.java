@@ -51,7 +51,7 @@ public class RoomListing extends javax.swing.JFrame {
         buttonLimparFiltros = new javax.swing.JButton();
         buttonAtualizar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         buttonIncluir.setText("Incluir");
         buttonIncluir.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +188,7 @@ public class RoomListing extends javax.swing.JFrame {
                     .addComponent(buttonIncluir)
                     .addComponent(buttonAlterar)
                     .addComponent(buttonExcluir))
-                .addGap(106, 106, 106))
+                .addContainerGap())
         );
 
         pack();
