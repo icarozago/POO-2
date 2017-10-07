@@ -5,8 +5,10 @@
  */
 package Main;
 
+import GraphicInterfaces.MovieWindowPanel;
 import GraphicInterfaces.SessionListing;
 import GraphicInterfaces.SessionWindowPanel;
+import Utilities.ReserchUtilities;
 
 /**
  *
@@ -18,8 +20,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SessionListing sessionListing = new SessionListing();
-        sessionListing.setVisible(true);
+        MovieWindowPanel a = new MovieWindowPanel(ReserchUtilities.findMovieById(2));
+        a.setVisible(true);
     }
 
 }

@@ -5,25 +5,24 @@
  */
 package Main;
 
+import Interfaces.MovieInterface;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.util.Pair;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Icaro
  */
-public class Movie {
+public class Movie implements MovieInterface{
     
     private Integer id;
-    
-    private Room room;
     
     private String name;
     
@@ -42,14 +41,6 @@ public class Movie {
     private String synopsis;
     
     private String language;
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 
     public String getName() {
         return name;
@@ -127,21 +118,94 @@ public class Movie {
         return id;
     }
     
-    public static List<String> getInTheaterMovieNames () {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    public static final String MOVIE_FIND_QUERY = " select * from filme ";
+    
+    private static final String MOVIE_EDIT_QUERY = " update filme set nome = ?, em_cartaz = ?, data_inicio = ?, data_fim = ?, classificacao = ?, idioma = ?, genero = ?, duracao = ?, sinopse = ? where id = ? ";
+    
+    private static final String MOVIE_INSERT_QUERY = " insert into filme (nome, em_cartaz, data_inicio, data_fim, classificacao, idioma, genero, duracao, sinopse) values (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+    
+    private static final String MOVIE_DELETE_QUERY = " delete from filme where id = ? ";
+
+    @Override
+    public boolean insertMovie(Movie movie) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/alunos_tcc", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement("select nome from filme where em_cartaz = 'true'");
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<String> resultado = new ArrayList<>();
-            while (resultSet.next()) {
-                resultado.add(resultSet.getString("nome"));
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(MOVIE_INSERT_QUERY);
+            preparedStatement.setString(1, movie.getName());
+            preparedStatement.setString(2, String.valueOf(movie.isInTheaters()));
+            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey().toString());
+            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue().toString());
+            preparedStatement.setString(5, movie.getAgeRating());
+            preparedStatement.setString(6, movie.getLanguage());
+            preparedStatement.setString(7, movie.getGenre());
+            preparedStatement.setString(8, String.valueOf(movie.getTime()));
+            preparedStatement.setString(9, movie.getSynopsis());
+
+            if (preparedStatement.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Filme cadastrado com Sucesso!");
+                return true;
             }
-            return resultado;
-        } catch (ClassNotFoundException | SQLException ex) {
-            
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o Filme.");
         }
-        return null;
+        return false;
     }
+
+    @Override
+    public boolean editMovie(Movie movie) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(MOVIE_EDIT_QUERY);
+            preparedStatement.setString(1, movie.getName());
+            preparedStatement.setString(2, String.valueOf(movie.isInTheaters()));
+            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey().toString());
+            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue().toString());
+            preparedStatement.setString(5, movie.getAgeRating());
+            preparedStatement.setString(6, movie.getLanguage());
+            preparedStatement.setString(7, movie.getGenre());
+            preparedStatement.setString(8, String.valueOf(movie.getTime()));
+            preparedStatement.setString(9, movie.getSynopsis());
+            preparedStatement.setString(10, String.valueOf(movie.getId()));
+
+            if (preparedStatement.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Filme edtado com Sucesso!");
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível editar o Filme.");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteMovie(Integer movieId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(MOVIE_DELETE_QUERY);
+            preparedStatement.setString(1, String.valueOf(movieId));
+
+            if (preparedStatement.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Filme excluido com Sucesso!");
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o Filme.");
+        }
+        return false;
+    }
+
     
 }

@@ -3,13 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Interfaces/SessionInterface.java</file>
-            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/GraphicInterfaces/RoomListing.java</file>
+            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Interfaces/MovieInterface.java</file>
+            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/GraphicInterfaces/MovieWindowPanel.java</file>
+            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/GraphicInterfaces/MovieListing.java</file>
             <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Main/Session.java</file>
-            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/GraphicInterfaces/RoomWindowPanel.java</file>
             <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/GraphicInterfaces/SessionListing.java</file>
             <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/GraphicInterfaces/SessionWindowPanel.java</file>
+            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Main/Movie.java</file>
             <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Main/Main.java</file>
+            <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Interfaces/RoomInterface.java</file>
             <file>file:/C:/Users/Icaro/Documents/POO%202/POO-2/src/Utilities/ReserchUtilities.java</file>
         </group>
     </open-files>

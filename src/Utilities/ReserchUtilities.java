@@ -5,6 +5,7 @@
  */
 package Utilities;
 
+import Main.Movie;
 import Main.Room;
 import Main.Session;
 import java.awt.HeadlessException;
@@ -13,8 +14,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.util.Pair;
 import javax.swing.JOptionPane;
 
 /**
@@ -246,7 +251,7 @@ public class ReserchUtilities {
         }
         return null;
     }
-    
+
     public static List<Session> findAllSessions() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -267,6 +272,52 @@ public class ReserchUtilities {
             return result;
         } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
+        }
+        return null;
+    }
+
+    public static List<String> getInTheaterMoviesNames() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement("select distinct nome from filme where em_cartaz = 'true'");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<String> resultado = new ArrayList<>();
+            while (resultSet.next()) {
+                resultado.add(resultSet.getString("nome"));
+            }
+            return resultado;
+        } catch (ClassNotFoundException | SQLException ex) {
+
+        }
+        return null;
+    }
+
+    public static Movie findMovieById(Integer id) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from filme where id = ?");
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Movie resultado = new Movie();
+            resultSet.next();
+            resultado.setAgeRating(resultSet.getString("classificacao"));
+            resultado.setGenre(resultSet.getString("genero"));
+            resultado.setInTheaters(resultSet.getBoolean("em_cartaz"));
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDate firstDate = LocalDate.parse(resultSet.getString("data_inicio").replaceAll("-", "/"), dateFormatter);
+            LocalDate lastDate = LocalDate.parse(resultSet.getString("data_fim").replaceAll("-", "/"), dateFormatter);
+            resultado.setInTheatersPeriod(new Pair<>(firstDate, lastDate));
+            resultado.setLanguage(resultSet.getString("idioma"));
+            resultado.setName(resultSet.getString("nome"));
+            resultado.setSessions(null);
+            resultado.setSynopsis(resultSet.getString("sinopse"));
+            resultado.setTime(Integer.valueOf(resultSet.getString("duracao")));
+            resultado.setId(Integer.valueOf(resultSet.getString("id")));
+            return resultado;
+        } catch (ClassNotFoundException | SQLException ex) {
+
         }
         return null;
     }

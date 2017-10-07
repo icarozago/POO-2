@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Main.Movie;
 import java.util.List;
 
 /**
@@ -19,6 +20,12 @@ public interface MovieInterface {
      * @return
      *  Return a list of names of the movies in theater.
      */
-    public List<String> getInTheaterMovieNames ();
+    //public List<String> getInTheaterMovieNames ();
+    
+    public boolean insertMovie(Movie movie);
+    
+    public boolean editMovie(Movie movie);
+    
+    public boolean deleteMovie(Integer movieId);
     
 }
