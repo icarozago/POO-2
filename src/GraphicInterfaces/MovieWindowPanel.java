@@ -8,13 +8,17 @@ package GraphicInterfaces;
 import Main.Movie;
 import Main.Session;
 import Utilities.ReserchUtilities;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javafx.util.Pair;
-import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -32,36 +36,19 @@ public class MovieWindowPanel extends javax.swing.JFrame {
     public MovieWindowPanel() {
         editMode = false;
         initComponents();
-        List<Session> sessions = ReserchUtilities.findAllSessions();
-        String[] datas = new String[sessions.size()];
-        int i = 0;
-        for (Session session : sessions) {
-            String data = "Hora: " + session.getTime()
-                    + " - Sala: " + session.getRoom().getNumber();
-            datas[i] = data;
-            i++;
-        }
-        listSessions = new JList<>(datas);
         buttonDelete.setVisible(false);
+        tableSessions.setRowSelectionAllowed(true);
+        tableSessions.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        fillTable(ReserchUtilities.findAllSessions(), null);
     }
 
     public MovieWindowPanel(Movie movie) {
         editMode = true;
         idMovie = movie.getId();
         initComponents();
-        List<Session> sessions = ReserchUtilities.findAllSessions();
-        String[] datas = new String[sessions.size()];
-        int i = 0;
-        for (Session session : sessions) {
-            String data = "Hora: " + session.getTime()
-                    + " - Sala: " + session.getRoom().getNumber();
-            datas[i] = data;
-            i++;
-        }
-        listSessions = new JList<>(datas);
         textAreaSynopsis.setText(movie.getSynopsis());
-        textFieldDataFinal.setText(movie.getInTheatersPeriod().getValue().toString());
-        textFieldDataInicio.setText(movie.getInTheatersPeriod().getKey().toString());
+        textFieldDataFinal.setText(movie.getInTheatersPeriod().getValue());
+        textFieldDataInicio.setText(movie.getInTheatersPeriod().getKey());
         textFieldLanguage.setText(movie.getLanguage());
         textFieldName.setText(movie.getName());
         textFieldTime.setText(String.valueOf(movie.getTime()));
@@ -69,8 +56,9 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         comboBoxGenre.setSelectedItem(movie.getGenre());
         comboBoxInTheater.setSelectedItem(movie.isInTheaters() == true
                 ? "Sim" : "Não");
-        //Set<Integer> indices = new HashSet<>();
-        //listSessions.setSelectedIndices(indices.toArray(new Integer[indices.size()]));
+        tableSessions.setRowSelectionAllowed(true);
+        tableSessions.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        fillTable(ReserchUtilities.findAllSessions(), movie.getSessions());
 
     }
 
@@ -90,7 +78,19 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         labelDataInicio = new javax.swing.JLabel();
         labelDataFinal = new javax.swing.JLabel();
         textFieldDataInicio = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter mask= new javax.swing.text.MaskFormatter("####/##/##");
+            textFieldDataInicio = new javax.swing.JFormattedTextField(mask);
+        }
+        catch (Exception e){
+        }
         textFieldDataFinal = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter mask= new javax.swing.text.MaskFormatter("####/##/##");
+            textFieldDataFinal = new javax.swing.JFormattedTextField(mask);
+        }
+        catch (Exception e){
+        }
         labelAgeRating = new javax.swing.JLabel();
         comboBoxAgeRating = new javax.swing.JComboBox<>();
         labelLanguage = new javax.swing.JLabel();
@@ -106,11 +106,11 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         buttonDelete = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
         labelSession = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listSessions = new javax.swing.JList<>();
         labelSessionHint = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableSessions = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         labelName.setText("Nome:");
 
@@ -122,6 +122,12 @@ public class MovieWindowPanel extends javax.swing.JFrame {
 
         labelDataFinal.setText("Data Final de Exibição:");
 
+        textFieldDataInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldDataInicioActionPerformed(evt);
+            }
+        });
+
         labelAgeRating.setText("Classificação:");
 
         comboBoxAgeRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Livre", "10", "12", "14", "16", "18" }));
@@ -130,7 +136,7 @@ public class MovieWindowPanel extends javax.swing.JFrame {
 
         labelGenre.setText("Gênero:");
 
-        comboBoxGenre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxGenre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ação", "Terror", "Romance", "Suspense", "Comédia", "Drama", "Ficção", "Aventura" }));
 
         labelTime.setText("Duração:");
 
@@ -156,19 +162,45 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         });
 
         buttonCancel.setText("Cancelar");
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelActionPerformed(evt);
+            }
+        });
 
         labelSession.setText("Sessões:");
-
-        listSessions.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(listSessions);
 
         labelSessionHint.setFont(labelSessionHint.getFont().deriveFont((labelSessionHint.getFont().getStyle() | java.awt.Font.ITALIC) & ~java.awt.Font.BOLD, 11));
         labelSessionHint.setForeground(new java.awt.Color(153, 153, 153));
         labelSessionHint.setText("Manter Selecionadas as Sessões desejadas");
+
+        tableSessions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Ativa no Filme", "Horario", "Sala"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tableSessions);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,25 +210,19 @@ public class MovieWindowPanel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonSave)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonCancel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelName)
-                        .addGap(18, 18, 18)
-                        .addComponent(textFieldName))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelInTheater)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboBoxInTheater, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelAgeRating)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboBoxAgeRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelName)
+                                .addGap(18, 18, 18)
+                                .addComponent(textFieldName))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelInTheater)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboBoxInTheater, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelAgeRating)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(comboBoxAgeRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(labelSynopsis)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
@@ -222,9 +248,15 @@ public class MovieWindowPanel extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelSession)
                                 .addGap(18, 18, 18)
-                                .addComponent(labelSessionHint))
-                            .addComponent(jScrollPane2))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(labelSessionHint)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonSave)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonCancel))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -266,8 +298,8 @@ public class MovieWindowPanel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSession)
                     .addComponent(labelSessionHint))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSave)
@@ -284,23 +316,33 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         movie.setAgeRating(comboBoxAgeRating.getSelectedItem().toString());
         movie.setGenre(comboBoxGenre.getSelectedItem().toString());
         movie.setInTheaters(comboBoxInTheater.getSelectedItem().toString().equals("Sim"));
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate firstDate = LocalDate.parse(textFieldDataInicio.getText(),dateFormatter);
-        LocalDate lastDate = LocalDate.parse(textFieldDataFinal.getText(),dateFormatter);
-        movie.setInTheatersPeriod(new Pair<>(firstDate, lastDate));
+        movie.setInTheatersPeriod(new Pair<>(textFieldDataInicio.getText(), textFieldDataFinal.getText()));
         movie.setLanguage(textFieldLanguage.getText());
         movie.setName(textFieldName.getText());
         movie.setSessions(null);
         movie.setSynopsis(textAreaSynopsis.getText());
         movie.setTime(Integer.valueOf(textFieldTime.getText()));
-        
+
+        final int[] selectedRows = tableSessions.getSelectedRows();
+        List<Session> movieSessions = new ArrayList<>();
+
+        if (selectedRows.length > 0) {
+            for (int row : selectedRows) {
+                movieSessions.add(ReserchUtilities.findSessionByParams(
+                        tableSessions.getValueAt(row, 1).toString(),
+                        ReserchUtilities.findRoomByNumber(
+                                (Integer) tableSessions.getValueAt(row, 2)).getId()));
+            }
+        }
+
+        movie.setSessions(movieSessions.size() > 0 ? movieSessions : null);
+
         if (editMode) {
             movie.setId(idMovie);
             if (movie.editMovie(movie)) {
                 this.setVisible(false);
             }
-        }
-        else {
+        } else {
             if (movie.insertMovie(movie)) {
                 this.setVisible(false);
             }
@@ -312,6 +354,52 @@ public class MovieWindowPanel extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelActionPerformed
+
+    private void textFieldDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldDataInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldDataInicioActionPerformed
+
+    private void fillTable(List<Session> sessions, List<Session> activatedSessions) {
+
+        DefaultTableModel defaultTableModel = (DefaultTableModel) tableSessions.getModel();
+
+        while (tableSessions.getRowCount() > 0) {
+            defaultTableModel.removeRow(0);
+        }
+
+        Set<Integer> activatedSessionsIds = new HashSet<>();
+
+        if (activatedSessions != null) {
+            activatedSessions.forEach(e -> activatedSessionsIds.add(e.getId()));
+        }
+
+        for (Session session : sessions) {
+
+            Object row[] = new Object[3];
+
+            if (activatedSessionsIds.contains(session.getId())) {
+                row[0] = "Sim";
+            } else {
+                row[0] = "Não";
+            }
+
+            row[1] = session.getTime();
+            row[2] = session.getRoom().getNumber();
+
+            defaultTableModel.addRow(row);
+        }
+        TableRowSorter<TableModel> sorter
+                = new TableRowSorter<>(tableSessions.getModel());
+        tableSessions.setRowSorter(sorter);
+
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+        sorter.setSortKeys(sortKeys);
+    }
 
     /**
      * @param args the command line arguments
@@ -356,7 +444,7 @@ public class MovieWindowPanel extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxGenre;
     private javax.swing.JComboBox<String> comboBoxInTheater;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel labelAgeRating;
     private javax.swing.JLabel labelDataFinal;
     private javax.swing.JLabel labelDataInicio;
@@ -368,7 +456,7 @@ public class MovieWindowPanel extends javax.swing.JFrame {
     private javax.swing.JLabel labelSessionHint;
     private javax.swing.JLabel labelSynopsis;
     private javax.swing.JLabel labelTime;
-    private javax.swing.JList<String> listSessions;
+    private javax.swing.JTable tableSessions;
     private javax.swing.JTextArea textAreaSynopsis;
     private javax.swing.JTextField textFieldDataFinal;
     private javax.swing.JTextField textFieldDataInicio;

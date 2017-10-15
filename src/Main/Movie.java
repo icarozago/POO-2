@@ -6,12 +6,12 @@
 package Main;
 
 import Interfaces.MovieInterface;
+import Utilities.ReserchUtilities;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import javafx.util.Pair;
 import javax.swing.JOptionPane;
@@ -30,7 +30,7 @@ public class Movie implements MovieInterface{
     
     private boolean inTheaters;
     
-    private Pair<LocalDate, LocalDate> inTheatersPeriod;
+    private Pair<String, String> inTheatersPeriod;
     
     private String genre;
     
@@ -66,11 +66,11 @@ public class Movie implements MovieInterface{
         this.inTheaters = inTheaters;
     }
 
-    public Pair<LocalDate, LocalDate> getInTheatersPeriod() {
+    public Pair<String, String> getInTheatersPeriod() {
         return inTheatersPeriod;
     }
 
-    public void setInTheatersPeriod(Pair<LocalDate, LocalDate> inTheatersPeriod) {
+    public void setInTheatersPeriod(Pair<String, String> inTheatersPeriod) {
         this.inTheatersPeriod = inTheatersPeriod;
     }
 
@@ -140,15 +140,24 @@ public class Movie implements MovieInterface{
             preparedStatement = connection.prepareStatement(MOVIE_INSERT_QUERY);
             preparedStatement.setString(1, movie.getName());
             preparedStatement.setString(2, String.valueOf(movie.isInTheaters()));
-            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey().toString());
-            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue().toString());
+            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey());
+            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue());
             preparedStatement.setString(5, movie.getAgeRating());
             preparedStatement.setString(6, movie.getLanguage());
             preparedStatement.setString(7, movie.getGenre());
             preparedStatement.setString(8, String.valueOf(movie.getTime()));
             preparedStatement.setString(9, movie.getSynopsis());
+            
+            boolean insertSessions = true;
+            int insertNumbers = preparedStatement.executeUpdate();
+            
+            if (movie.getSessions() != null) {
+                movie.setId(ReserchUtilities.findMovieByName(movie.getName())
+                        .getId());
+                insertSessions = movie.insertMovieSessions(movie);
+            }
 
-            if (preparedStatement.executeUpdate() > 0) {
+            if (insertSessions &&  insertNumbers > 0) {
                 JOptionPane.showMessageDialog(null, "Filme cadastrado com Sucesso!");
                 return true;
             }
@@ -161,6 +170,7 @@ public class Movie implements MovieInterface{
     @Override
     public boolean editMovie(Movie movie) {
         try {
+            movie.deleteMovieSessions(movie.getId());
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 
@@ -168,16 +178,22 @@ public class Movie implements MovieInterface{
             preparedStatement = connection.prepareStatement(MOVIE_EDIT_QUERY);
             preparedStatement.setString(1, movie.getName());
             preparedStatement.setString(2, String.valueOf(movie.isInTheaters()));
-            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey().toString());
-            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue().toString());
+            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey());
+            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue());
             preparedStatement.setString(5, movie.getAgeRating());
             preparedStatement.setString(6, movie.getLanguage());
             preparedStatement.setString(7, movie.getGenre());
             preparedStatement.setString(8, String.valueOf(movie.getTime()));
             preparedStatement.setString(9, movie.getSynopsis());
             preparedStatement.setString(10, String.valueOf(movie.getId()));
+            
+            boolean insertSessions = true;
+            
+            if (movie.getSessions() != null) {
+                insertSessions = movie.insertMovieSessions(movie);
+            }
 
-            if (preparedStatement.executeUpdate() > 0) {
+            if (insertSessions && preparedStatement.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Filme edtado com Sucesso!");
                 return true;
             }
@@ -190,6 +206,7 @@ public class Movie implements MovieInterface{
     @Override
     public boolean deleteMovie(Integer movieId) {
         try {
+            new Movie().deleteMovieSessions(movieId);
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 

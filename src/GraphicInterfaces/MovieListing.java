@@ -5,6 +5,12 @@
  */
 package GraphicInterfaces;
 
+import Main.Movie;
+import Main.Session;
+import Utilities.ReserchUtilities;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Icaro
@@ -16,6 +22,11 @@ public class MovieListing extends javax.swing.JFrame {
      */
     public MovieListing() {
         initComponents();
+        fillTable(ReserchUtilities.findAllMovies());
+        List<Session> sessions = ReserchUtilities.findAllSessions();
+        sessions.forEach(e -> {comboBoxFirstSession.addItem(e.getTime());
+        comboBoxLastSession.addItem(e.getTime());});
+        
     }
 
     /**
@@ -27,21 +38,285 @@ public class MovieListing extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        buttonUpdate = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableMovies = new javax.swing.JTable();
+        buttonCleanFilters = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        textFieldName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        comboBoxInTheater = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        comboBoxAgeRating = new javax.swing.JComboBox<>();
+        buttonInsert = new javax.swing.JButton();
+        buttonEdit = new javax.swing.JButton();
+        buttonDelete = new javax.swing.JButton();
+        buttonCancel = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        textFieldFirstDate = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter mask= new javax.swing.text.MaskFormatter("####/##/##");
+            textFieldFirstDate = new javax.swing.JFormattedTextField(mask);
+        }
+        catch (Exception e){
+        }
+        jLabel5 = new javax.swing.JLabel();
+        textFieldLastDate = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter mask= new javax.swing.text.MaskFormatter("####/##/##");
+            textFieldLastDate = new javax.swing.JFormattedTextField(mask);
+        }
+        catch (Exception e){
+        }
+        jLabel6 = new javax.swing.JLabel();
+        comboBoxFirstSession = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        comboBoxLastSession = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        buttonUpdate.setText("Atualizar");
+        buttonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonUpdateActionPerformed(evt);
+            }
+        });
+
+        tableMovies.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Em Cartaz", "Nome", "Inicio Exibição", "Final Exibição", "Duração", "Classificação", "Lingua"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableMovies);
+        if (tableMovies.getColumnModel().getColumnCount() > 0) {
+            tableMovies.getColumnModel().getColumn(0).setPreferredWidth(60);
+            tableMovies.getColumnModel().getColumn(1).setPreferredWidth(140);
+            tableMovies.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tableMovies.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tableMovies.getColumnModel().getColumn(5).setResizable(false);
+            tableMovies.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tableMovies.getColumnModel().getColumn(6).setPreferredWidth(40);
+        }
+
+        buttonCleanFilters.setText("Limpar Filtros");
+        buttonCleanFilters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCleanFiltersActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Nome:");
+
+        jLabel2.setText("Em Cartaz:");
+
+        comboBoxInTheater.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Sim", "Não" }));
+
+        jLabel3.setText("Classificação:");
+
+        comboBoxAgeRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Livre", "10", "12", "14", "16", "18" }));
+
+        buttonInsert.setText("Incluir");
+        buttonInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonInsertActionPerformed(evt);
+            }
+        });
+
+        buttonEdit.setText("Editar");
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditActionPerformed(evt);
+            }
+        });
+
+        buttonDelete.setText("Excluir");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
+
+        buttonCancel.setText("Cancelar");
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Inicio Exibição:");
+
+        jLabel5.setText("Final de Exibição:");
+
+        jLabel6.setText("Mínimo Sessão:");
+
+        comboBoxFirstSession.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+
+        jLabel7.setText("Máximo Sessão:");
+
+        comboBoxLastSession.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonInsert)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonEdit)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonCancel))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel1))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldName, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(comboBoxFirstSession, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboBoxAgeRating, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(textFieldFirstDate))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(comboBoxLastSession, 0, 113, Short.MAX_VALUE)))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(buttonCleanFilters)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addComponent(buttonUpdate))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(textFieldLastDate)
+                                    .addComponent(comboBoxInTheater, javax.swing.GroupLayout.Alignment.LEADING, 0, 109, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(comboBoxInTheater, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboBoxAgeRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(textFieldLastDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(textFieldFirstDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonUpdate)
+                    .addComponent(buttonCleanFilters)
+                    .addComponent(jLabel6)
+                    .addComponent(comboBoxFirstSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(comboBoxLastSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonInsert)
+                    .addComponent(buttonEdit)
+                    .addComponent(buttonDelete)
+                    .addComponent(buttonCancel))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonCleanFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCleanFiltersActionPerformed
+        textFieldFirstDate.setText("");
+        textFieldLastDate.setText("");
+        textFieldName.setText("");
+        comboBoxAgeRating.setSelectedIndex(0);
+        comboBoxFirstSession.setSelectedIndex(0);
+        comboBoxInTheater.setSelectedIndex(0);
+        comboBoxLastSession.setSelectedIndex(0);
+    }//GEN-LAST:event_buttonCleanFiltersActionPerformed
+
+    private void buttonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInsertActionPerformed
+        MovieWindowPanel movieWindowPanel = new MovieWindowPanel();
+        movieWindowPanel.setVisible(true);
+    }//GEN-LAST:event_buttonInsertActionPerformed
+
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+        Movie movie = ReserchUtilities.findMovieByName(tableMovies.getValueAt(
+                tableMovies.getSelectedRow(), 1).toString());
+        MovieWindowPanel movieWindowPanel = new MovieWindowPanel(movie);
+        movieWindowPanel.setVisible(true);
+    }//GEN-LAST:event_buttonEditActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        Movie movie = ReserchUtilities.findMovieByName(tableMovies.getValueAt(
+                tableMovies.getSelectedRow(), 1).toString());
+        MovieWindowPanel movieWindowPanel = new MovieWindowPanel(movie);
+        movieWindowPanel.setVisible(true);
+    }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
+        fillTable(ReserchUtilities.findMoviesByParams(textFieldName.getText(),
+                comboBoxAgeRating.getSelectedItem().toString(),
+                comboBoxFirstSession.getSelectedItem().toString(),
+                comboBoxLastSession.getSelectedItem().toString(),
+                textFieldFirstDate.getText(), textFieldLastDate.getText(),
+                comboBoxInTheater.getSelectedItem().toString().equals("Selecione")
+        ? null : Boolean.valueOf(comboBoxInTheater.getSelectedItem().toString())));
+    }//GEN-LAST:event_buttonUpdateActionPerformed
+
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,7 +352,56 @@ public class MovieListing extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void fillTable(List<Movie> movies) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) tableMovies.getModel();
+
+        while (tableMovies.getRowCount() > 0) {
+            defaultTableModel.removeRow(0);
+        }
+
+        for (Movie movie : movies) {
+
+            Object row[] = new Object[7];
+            
+            if (movie.isInTheaters()) {
+                row[0] = "Sim";
+            } else {
+                row[0] = "Não";
+            }
+            row[1] = movie.getName();
+            row[2] = movie.getInTheatersPeriod().getKey();
+            row[3] = movie.getInTheatersPeriod().getValue();
+            row[4] = movie.getTime();
+            row[5] = movie.getAgeRating();
+            row[6] = movie.getLanguage()
+                    ;
+            defaultTableModel.addRow(row);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCancel;
+    private javax.swing.JButton buttonCleanFilters;
+    private javax.swing.JButton buttonDelete;
+    private javax.swing.JButton buttonEdit;
+    private javax.swing.JButton buttonInsert;
+    private javax.swing.JButton buttonUpdate;
+    private javax.swing.JComboBox<String> comboBoxAgeRating;
+    private javax.swing.JComboBox<String> comboBoxFirstSession;
+    private javax.swing.JComboBox<String> comboBoxInTheater;
+    private javax.swing.JComboBox<String> comboBoxLastSession;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tableMovies;
+    private javax.swing.JTextField textFieldFirstDate;
+    private javax.swing.JTextField textFieldLastDate;
+    private javax.swing.JTextField textFieldName;
     // End of variables declaration//GEN-END:variables
 }
