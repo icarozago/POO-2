@@ -5,8 +5,7 @@
  */
 package Main;
 
-import java.math.BigDecimal;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  *
@@ -16,20 +15,20 @@ public class Sale {
     
     private Integer id;
     
-    private Time time;
+    private Date date;
     
     private Movie movie;
     
-    private BigDecimal amount;
+    private double amount;
     
     private int numberOfTickets;
 
-    public Time getTime() {
-        return time;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Movie getMovie() {
@@ -40,11 +39,11 @@ public class Sale {
         this.movie = movie;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

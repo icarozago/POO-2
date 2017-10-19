@@ -6,7 +6,6 @@
 package Main;
 
 import GraphicInterfaces.SessionListing;
-import GraphicInterfaces.SessionWindowPanel;
 
 /**
  *
