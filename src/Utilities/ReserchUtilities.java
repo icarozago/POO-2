@@ -431,7 +431,7 @@ public class ReserchUtilities {
             preparedStatement.setString(1, !name.isEmpty() ? "%" + name + "%" : "%");
             preparedStatement.setString(2, !ageRating.equals("Selecione") ? "%" + ageRating + "%" : "%");
             preparedStatement.setString(3, !firstDate.isEmpty() ? firstDate : "");
-            preparedStatement.setString(4, !lastDate.isEmpty() ? lastDate : "9999-12-31");
+            preparedStatement.setString(4, !lastDate.equals("    /  /  ") ? lastDate : "9999/12/31");
             preparedStatement.setString(5, inTheater != null ? inTheater.toString() : "%");
 
             if (!sessionInit.equals("Selecione") && !sessionFinish.equals("Selecione")) {
