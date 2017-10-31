@@ -46,6 +46,11 @@ public class Home extends javax.swing.JFrame {
 
         menuItemMovie.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, 0));
         menuItemMovie.setText("Filme");
+        menuItemMovie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemMovieActionPerformed(evt);
+            }
+        });
         menuMoovie.add(menuItemMovie);
 
         jMenuBar1.add(menuMoovie);
@@ -152,6 +157,11 @@ public class Home extends javax.swing.JFrame {
     private void menuItemSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItemSalesActionPerformed
+
+    private void menuItemMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemMovieActionPerformed
+        MovieListing movieListing = new MovieListing();
+        movieListing.setVisible(true);
+    }//GEN-LAST:event_menuItemMovieActionPerformed
 
     /**
      * @param args the command line arguments
