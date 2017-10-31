@@ -81,79 +81,79 @@ public class Session implements SessionInterface {
         return false;
     }
 
-    @Override
-    public List<Session> findAllSessions() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement(SESSION_FIND_QUERY);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Session> result = new ArrayList<>();
-
-            while (resultSet.next()) {
-                Session session = new Session();
-                session.setTime(resultSet.getString("hora_sessao"));
-                session.setRoom(session.getRoom().findRoomByNumber(resultSet.getInt("salaId")));
-                result.add(session);
-            }
-
-            return result;
-        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
-        }
-        return null;
-    }
-
-    @Override
-    public List<Session> findSessionByTime(String time) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/alunos_tcc", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement(SESSION_FIND_QUERY + " where hora_sessao = (?)");
-            preparedStatement.setString(1, time);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Session> result = new ArrayList<>();
-
-            while (resultSet.next()) {
-                Session session = new Session();
-                session.setTime(resultSet.getString("hora_sessao"));
-                session.setRoom(session.getRoom().findRoomByNumber(resultSet.getInt("sala")));
-                result.add(session);
-            }
-
-            return result;
-        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
-        }
-        return null;
-    }
-
-    @Override
-    public List<Session> findSessionByRoom(Integer roomId) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/alunos_tcc", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement(SESSION_FIND_QUERY + " where salaId = (?)");
-            preparedStatement.setString(1, roomId.toString());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Session> result = new ArrayList<>();
-
-            while (resultSet.next()) {
-                Session session = new Session();
-                session.setTime(resultSet.getString("hora_sessao"));
-                session.setRoom(session.getRoom().findRoomByNumber(resultSet.getInt("sala")));
-                result.add(session);
-            }
-
-            return result;
-        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
-        }
-        return null;
-    }
+//    @Override
+//    public List<Session> findAllSessions() {
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection;
+//            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+//            PreparedStatement preparedStatement = connection.prepareStatement(SESSION_FIND_QUERY);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            List<Session> result = new ArrayList<>();
+//
+//            while (resultSet.next()) {
+//                Session session = new Session();
+//                session.setTime(resultSet.getString("hora_sessao"));
+//                session.setRoom(session.getRoom().findRoomByNumber(resultSet.getInt("salaId")));
+//                result.add(session);
+//            }
+//
+//            return result;
+//        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+//            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Session> findSessionByTime(String time) {
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection;
+//            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/alunos_tcc", "root", "123456");
+//            PreparedStatement preparedStatement = connection.prepareStatement(SESSION_FIND_QUERY + " where hora_sessao = (?)");
+//            preparedStatement.setString(1, time);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            List<Session> result = new ArrayList<>();
+//
+//            while (resultSet.next()) {
+//                Session session = new Session();
+//                session.setTime(resultSet.getString("hora_sessao"));
+//                session.setRoom(session.getRoom().findRoomByNumber(resultSet.getInt("sala")));
+//                result.add(session);
+//            }
+//
+//            return result;
+//        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+//            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Session> findSessionByRoom(Integer roomId) {
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection;
+//            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/alunos_tcc", "root", "123456");
+//            PreparedStatement preparedStatement = connection.prepareStatement(SESSION_FIND_QUERY + " where salaId = (?)");
+//            preparedStatement.setString(1, roomId.toString());
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            List<Session> result = new ArrayList<>();
+//
+//            while (resultSet.next()) {
+//                Session session = new Session();
+//                session.setTime(resultSet.getString("hora_sessao"));
+//                session.setRoom(session.getRoom().findRoomByNumber(resultSet.getInt("sala")));
+//                result.add(session);
+//            }
+//
+//            return result;
+//        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+//            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
+//        }
+//        return null;
+//    }
 
     @Override
     public boolean editSession(Session session) {

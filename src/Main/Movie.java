@@ -5,25 +5,24 @@
  */
 package Main;
 
+import Interfaces.MovieInterface;
+import Utilities.ReserchUtilities;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.util.Pair;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Icaro
  */
-public class Movie {
+public class Movie implements MovieInterface{
     
     private Integer id;
-    
-    private Room room;
     
     private String name;
     
@@ -31,7 +30,7 @@ public class Movie {
     
     private boolean inTheaters;
     
-    private Pair<LocalDate, LocalDate> inTheatersPeriod;
+    private Pair<String, String> inTheatersPeriod;
     
     private String genre;
     
@@ -42,14 +41,6 @@ public class Movie {
     private String synopsis;
     
     private String language;
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 
     public String getName() {
         return name;
@@ -75,11 +66,11 @@ public class Movie {
         this.inTheaters = inTheaters;
     }
 
-    public Pair<LocalDate, LocalDate> getInTheatersPeriod() {
+    public Pair<String, String> getInTheatersPeriod() {
         return inTheatersPeriod;
     }
 
-    public void setInTheatersPeriod(Pair<LocalDate, LocalDate> inTheatersPeriod) {
+    public void setInTheatersPeriod(Pair<String, String> inTheatersPeriod) {
         this.inTheatersPeriod = inTheatersPeriod;
     }
 
@@ -127,21 +118,111 @@ public class Movie {
         return id;
     }
     
-    public static List<String> getInTheaterMovieNames () {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    public static final String MOVIE_FIND_QUERY = " select * from filme ";
+    
+    private static final String MOVIE_EDIT_QUERY = " update filme set nome = ?, em_cartaz = ?, data_inicio = ?, data_fim = ?, classificacao = ?, idioma = ?, genero = ?, duracao = ?, sinopse = ? where id = ? ";
+    
+    private static final String MOVIE_INSERT_QUERY = " insert into filme (nome, em_cartaz, data_inicio, data_fim, classificacao, idioma, genero, duracao, sinopse) values (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+    
+    private static final String MOVIE_DELETE_QUERY = " delete from filme where id = ? ";
+
+    @Override
+    public boolean insertMovie(Movie movie) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/alunos_tcc", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement("select nome from filme where em_cartaz = 'true'");
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<String> resultado = new ArrayList<>();
-            while (resultSet.next()) {
-                resultado.add(resultSet.getString("nome"));
-            }
-            return resultado;
-        } catch (ClassNotFoundException | SQLException ex) {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(MOVIE_INSERT_QUERY);
+            preparedStatement.setString(1, movie.getName());
+            preparedStatement.setString(2, String.valueOf(movie.isInTheaters()));
+            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey());
+            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue());
+            preparedStatement.setString(5, movie.getAgeRating());
+            preparedStatement.setString(6, movie.getLanguage());
+            preparedStatement.setString(7, movie.getGenre());
+            preparedStatement.setString(8, String.valueOf(movie.getTime()));
+            preparedStatement.setString(9, movie.getSynopsis());
             
+            boolean insertSessions = true;
+            int insertNumbers = preparedStatement.executeUpdate();
+            
+            if (movie.getSessions() != null) {
+                movie.setId(ReserchUtilities.findMovieByName(movie.getName())
+                        .getId());
+                insertSessions = movie.insertMovieSessions(movie);
+            }
+
+            if (insertSessions &&  insertNumbers > 0) {
+                JOptionPane.showMessageDialog(null, "Filme cadastrado com Sucesso!");
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o Filme.");
         }
-        return null;
+        return false;
     }
+
+    @Override
+    public boolean editMovie(Movie movie) {
+        try {
+            movie.deleteMovieSessions(movie.getId());
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(MOVIE_EDIT_QUERY);
+            preparedStatement.setString(1, movie.getName());
+            preparedStatement.setString(2, String.valueOf(movie.isInTheaters()));
+            preparedStatement.setString(3, movie.getInTheatersPeriod().getKey());
+            preparedStatement.setString(4, movie.getInTheatersPeriod().getValue());
+            preparedStatement.setString(5, movie.getAgeRating());
+            preparedStatement.setString(6, movie.getLanguage());
+            preparedStatement.setString(7, movie.getGenre());
+            preparedStatement.setString(8, String.valueOf(movie.getTime()));
+            preparedStatement.setString(9, movie.getSynopsis());
+            preparedStatement.setString(10, String.valueOf(movie.getId()));
+            
+            boolean insertSessions = true;
+            
+            if (movie.getSessions() != null) {
+                insertSessions = movie.insertMovieSessions(movie);
+            }
+
+            if (insertSessions && preparedStatement.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Filme edtado com Sucesso!");
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível editar o Filme.");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteMovie(Integer movieId) {
+        try {
+            new Movie().deleteMovieSessions(movieId);
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(MOVIE_DELETE_QUERY);
+            preparedStatement.setString(1, String.valueOf(movieId));
+
+            if (preparedStatement.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Filme excluido com Sucesso!");
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o Filme.");
+        }
+        return false;
+    }
+
     
 }

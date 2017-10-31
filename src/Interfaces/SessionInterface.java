@@ -6,7 +6,6 @@
 package Interfaces;
 
 import Main.Session;
-import java.util.List;
 
 /**
  *
@@ -19,11 +18,4 @@ public interface SessionInterface {
     public boolean editSession (Session session);
     
     public boolean deleteSession (Integer sessionId);
-    
-    public List<Session> findAllSessions ();
-    
-    public List<Session> findSessionByTime (String time);
-    
-    public List<Session> findSessionByRoom (Integer roomId);
-    
 }
