@@ -5,16 +5,24 @@
  */
 package Utilities;
 
+import Main.HalfTicket;
 import Main.Movie;
 import Main.Room;
+import Main.Sale;
 import Main.Session;
+import Main.Ticket;
+import Main.WholeTicket;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javafx.util.Pair;
 import javax.swing.JOptionPane;
@@ -430,8 +438,8 @@ public class ReserchUtilities {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, !name.isEmpty() ? "%" + name + "%" : "%");
             preparedStatement.setString(2, !ageRating.equals("Selecione") ? "%" + ageRating + "%" : "%");
-            preparedStatement.setString(3, !firstDate.isEmpty() ? firstDate : "");
-            preparedStatement.setString(4, !lastDate.isEmpty() ? lastDate : "9999-12-31");
+            preparedStatement.setString(3, firstDate != null && !firstDate.isEmpty() ? firstDate : "%");
+            preparedStatement.setString(4, lastDate != null && !lastDate.isEmpty() ? lastDate : "9999-12-31");
             preparedStatement.setString(5, inTheater != null ? inTheater.toString() : "%");
 
             if (!sessionInit.equals("Selecione") && !sessionFinish.equals("Selecione")) {
@@ -466,6 +474,204 @@ public class ReserchUtilities {
             }
             return result;
         } catch (ClassNotFoundException | SQLException ex) {
+
+        }
+        return null;
+    }
+
+    public static List<Session> findSessionsByMovie(Integer movieId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement("Select * from sessaofilme where filmeid = ?");
+            preparedStatement.setString(1, movieId.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Session> result = new ArrayList<>();
+
+            while (resultSet.next()) {
+                result.add(findSessionById(resultSet.getInt("sessaoid")));
+            }
+
+            return result;
+        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
+        }
+        return null;
+    }
+
+    public static Session findSessionById(Integer sessionId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement(Session.SESSION_FIND_QUERY + " where id = ?");
+            preparedStatement.setString(1, sessionId.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Session result = new Session();
+
+            resultSet.next();
+            result.setId(resultSet.getInt("id"));
+            result.setTime(resultSet.getString("hora_sessao"));
+            result.setRoom(findRoomById(resultSet.getInt("salaId")));
+
+            return result;
+        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sessão encontrada!");
+        }
+        return null;
+    }
+
+    public static Sale findSaleByTime(Date date) {
+        try {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement(Sale.SALE_FIND_QUERY + " where data like ?");
+            preparedStatement.setString(1, "%" + formatter.format(date) + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Sale result = new Sale();
+
+            resultSet.next();
+            result.setId(resultSet.getInt("id"));
+            result.setAmount(resultSet.getInt("valor"));
+            result.setDate(date);
+            result.setTickets(ReserchUtilities.findTicketsBySaleId(result.getId()));
+
+            return result;
+        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Erro, nenhuma Venda encontrada!");
+        }
+        return null;
+    }
+
+    public static Sale findSaleById(Integer saleId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement(Sale.SALE_FIND_QUERY + " where id = ?");
+            preparedStatement.setString(1, saleId.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Sale result = new Sale();
+
+            resultSet.next();
+            result.setId(resultSet.getInt("id"));
+            result.setAmount(resultSet.getInt("valor"));
+            result.setDate(resultSet.getDate("data"));
+            result.setTickets(ReserchUtilities.findTicketsBySaleId(result.getId()));
+
+            return result;
+        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Erro, nenhuma Venda encontrada!");
+        }
+        return null;
+    }
+
+    public static List<Ticket> findTicketsBySaleId(Integer saleId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "select ingresso.filmeid, ingresso.sessaoid, ingresso.valor, "
+                    + "venda.id, venda.data, venda.valor from ingresso "
+                    + "inner join venda on venda.id = ingresso.vendaid "
+                    + " where ingresso.vendaid = ?");
+            preparedStatement.setString(1, String.valueOf(saleId));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Ticket> result = new ArrayList<>();
+            while (resultSet.next()) {
+                Ticket ticket;
+                if (resultSet.getInt("ingresso.valor") == 8) {
+                    ticket = new HalfTicket(findMovieById(
+                            resultSet.getInt("ingresso.filmeId")),
+                            findSessionById(resultSet.getInt("ingresso.sessaoId")),
+                            null);
+                } else {
+                    ticket = new WholeTicket(findMovieById(
+                            resultSet.getInt("ingresso.filmeId")),
+                            findSessionById(resultSet.getInt("ingresso.sessaoId")),
+                            null);
+                }
+
+                Sale sale = new Sale();
+                sale.setId(resultSet.getInt("venda.id"));
+                sale.setAmount(resultSet.getDouble("venda.valor"));
+                sale.setDate(resultSet.getDate("venda.data"));
+                sale.setTickets(result);
+
+                result.forEach(e -> e.setSale(sale));
+
+                result.add(ticket);
+            }
+
+            return result;
+        } catch (ClassNotFoundException | SQLException ex) {
+
+        }
+        return null;
+    }
+
+    public static List<Sale> findSalesByParams(List<Movie> movies, Date initialDate, Date finalDate, Double initialValue, Double finalValue) {
+        try {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+            String query = "select venda.id, venda.data, venda.valor "
+                    + " from venda inner join ingresso on ingresso.vendaid = venda.id "
+                    + " where venda.valor >= ? "
+                    + " and venda.data <= ? "
+                    + " and venda.data >= ? ";
+
+            if (finalValue != null) {
+                query += " and venda.valor <= ?";
+            }
+
+            if (!movies.isEmpty()) {
+                query += " and ingresso.filmeid in (?)";
+            }
+            query += " group by venda.id";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, initialValue != null ? initialValue.toString() : "0");
+            preparedStatement.setString(2, finalDate != null ? formatter.format(finalDate) : "9999-12-31 00:00:00");
+            preparedStatement.setString(3, initialDate != null ? formatter.format(initialDate) : "%");
+            if (finalValue != null) {
+                preparedStatement.setString(4, finalValue.toString());
+            }
+            if (!movies.isEmpty()) {
+                String movieIds = "";
+                for (int i = 0; i < movies.size(); i++) {
+                    if (i != movies.size() - 1) {
+                        movieIds += movies.get(i).getId() + ", ";
+                    } else {
+                        movieIds += movies.get(i).getId();
+                    }
+
+                }
+                preparedStatement.setString(5, movieIds);
+            }
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Sale> result = new ArrayList<>();
+            while (resultSet.next()) {
+                Sale sale = new Sale();
+                List<Ticket> tickets = findTicketsBySaleId(resultSet.getInt("venda.id"));
+
+                sale.setId(resultSet.getInt("venda.id"));
+                sale.setTickets(tickets);
+                String data = resultSet.getString("venda.data");
+                sale.setDate(formatter.parse(data));
+                sale.setAmount(resultSet.getDouble("venda.valor"));
+
+                result.add(sale);
+            }
+
+            return result;
+        } catch (ClassNotFoundException | SQLException | ParseException ex) {
 
         }
         return null;

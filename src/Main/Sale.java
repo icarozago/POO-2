@@ -5,23 +5,44 @@
  */
 package Main;
 
+import Interfaces.SaleInterface;
+import Utilities.ReserchUtilities;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Icaro
  */
-public class Sale {
-    
+public class Sale implements SaleInterface {
+
     private Integer id;
-    
+
     private Date date;
-    
-    private Movie movie;
-    
+
+    private List<Ticket> tickets;
+
     private double amount;
-    
-    private int numberOfTickets;
+
+    private static final String SALE_INSERT_QUERY = "Insert into venda (valor) values (?)";
+
+    public static final String SALE_FIND_QUERY = "Select * from venda ";
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 
     public Date getDate() {
         return date;
@@ -29,14 +50,6 @@ public class Sale {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
     }
 
     public double getAmount() {
@@ -47,16 +60,41 @@ public class Sale {
         this.amount = amount;
     }
 
-    public int getNumberOfTickets() {
-        return numberOfTickets;
-    }
-
-    public void setNumberOfTickets(int numberOfTickets) {
-        this.numberOfTickets = numberOfTickets;
-    }
-
     public Integer getId() {
         return id;
     }
-    
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean insertSale(Sale sale) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(SALE_INSERT_QUERY);
+            preparedStatement.setString(1, String.valueOf(sale.getAmount()));
+
+            if (preparedStatement.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Venda cadastrada com Sucesso!");
+
+                Sale updatedSale = ReserchUtilities.findSaleByTime(sale.getDate());
+
+                sale.getTickets().forEach(e -> {
+                    e.setSale(updatedSale);
+                    e.insertTicket(e);
+                    e.impressTicket();
+                });
+
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar a Venda.");
+        }
+        return false;
+    }
+
 }
