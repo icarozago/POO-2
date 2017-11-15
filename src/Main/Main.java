@@ -6,8 +6,7 @@
 package Main;
 
 import GraphicInterfaces.MovieListing;
-import GraphicInterfaces.RoomListing;
-import GraphicInterfaces.SessionListing;
+import GraphicInterfaces.SaleListing;
 
 /**
  *
@@ -27,6 +26,9 @@ public class Main {
         
         //RoomListing c = new RoomListing();
         //c.setVisible(true);
+        
+        SaleListing d = new SaleListing();
+        d.setVisible(true);
     }
 
 }
