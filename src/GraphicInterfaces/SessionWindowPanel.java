@@ -48,10 +48,11 @@ public class SessionWindowPanel extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        textFieldHour = new javax.swing.JTextField();
         comboBoxRoom = new javax.swing.JComboBox<>();
         buttonSave = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        textFieldHour = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -79,6 +80,19 @@ public class SessionWindowPanel extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        try {
+            textFieldHour.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,15 +104,18 @@ public class SessionWindowPanel extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(textFieldHour))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonSave)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonDelete))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboBoxRoom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(buttonSave)
+                            .addGap(18, 18, 18)
+                            .addComponent(buttonDelete))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18)
+                            .addComponent(comboBoxRoom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,7 +131,8 @@ public class SessionWindowPanel extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSave)
-                    .addComponent(buttonDelete))
+                    .addComponent(buttonDelete)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -134,11 +152,11 @@ public class SessionWindowPanel extends javax.swing.JFrame {
         session.setId(sessionId);
 
         if (editMode) {
-            if (session.editSession(session)) {
+            if (session.edit(session)) {
              this.setVisible(false);
             }
         } else {
-            if (session.insertSession(session)) {
+            if (session.insert(session)) {
                 this.setVisible(false);
             }
         }
@@ -146,10 +164,14 @@ public class SessionWindowPanel extends javax.swing.JFrame {
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         Session session = new Session();
-        if (session.deleteSession(sessionId)) {
+        if (session.delete(sessionId)) {
             this.setVisible(false);
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,8 +212,9 @@ public class SessionWindowPanel extends javax.swing.JFrame {
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonSave;
     private javax.swing.JComboBox<String> comboBoxRoom;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField textFieldHour;
+    private javax.swing.JFormattedTextField textFieldHour;
     // End of variables declaration//GEN-END:variables
 }

@@ -62,6 +62,7 @@ public class RoomWindowPanel extends javax.swing.JFrame {
         textFieldCapacity = new javax.swing.JTextField();
         comboBoxAirConditing = new javax.swing.JComboBox<>();
         buttonSave = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -93,6 +94,13 @@ public class RoomWindowPanel extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,7 +111,9 @@ public class RoomWindowPanel extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonSave)
                         .addGap(18, 18, 18)
-                        .addComponent(buttonDelete))
+                        .addComponent(buttonDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
@@ -115,7 +125,8 @@ public class RoomWindowPanel extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(comboBoxAirConditing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboBoxAirConditing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -135,7 +146,8 @@ public class RoomWindowPanel extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSave)
-                    .addComponent(buttonDelete))
+                    .addComponent(buttonDelete)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -158,11 +170,11 @@ public class RoomWindowPanel extends javax.swing.JFrame {
         room.setAir_conditioning(arCondicionado);
 
         if (editMode) {
-            if (room.editRoom(room)) {
+            if (room.edit(room)) {
                 this.setVisible(false);
             }
         } else {
-            if (room.insertRoom(room)) {
+            if (room.insert(room)) {
                 this.setVisible(false);
             }
         }
@@ -170,10 +182,14 @@ public class RoomWindowPanel extends javax.swing.JFrame {
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         Room room = new Room();
-        if (room.deleteRoom(roomId)) {
+        if (room.delete(roomId)) {
             this.setVisible(false);
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,6 +231,7 @@ public class RoomWindowPanel extends javax.swing.JFrame {
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonSave;
     private javax.swing.JComboBox<String> comboBoxAirConditing;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

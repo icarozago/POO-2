@@ -38,7 +38,6 @@ public class SessionListing extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         labelHorario = new javax.swing.JLabel();
         labelSala = new javax.swing.JLabel();
-        textFieldHorario = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableSessao = new javax.swing.JTable();
         buttonLimparFiltros = new javax.swing.JButton();
@@ -47,6 +46,8 @@ public class SessionListing extends javax.swing.JFrame {
         buttonIncluir = new javax.swing.JButton();
         buttonEditar = new javax.swing.JButton();
         buttonExcluir = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        textFieldHorario = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -115,6 +116,19 @@ public class SessionListing extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        try {
+            textFieldHorario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,9 +157,11 @@ public class SessionListing extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(buttonExcluir)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(buttonAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(buttonLimparFiltros))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(buttonAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonLimparFiltros))
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -169,7 +185,8 @@ public class SessionListing extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonIncluir)
                             .addComponent(buttonEditar)
-                            .addComponent(buttonExcluir)))
+                            .addComponent(buttonExcluir)
+                            .addComponent(jButton1)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonLimparFiltros)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,7 +221,7 @@ public class SessionListing extends javax.swing.JFrame {
         String scadule = null;
         Integer roomId = null;
 
-        if (!textFieldHorario.getText().isEmpty()) {
+        if (!textFieldHorario.getText().equals("  :  ")) {
             scadule = textFieldHorario.getText();
         }
 
@@ -217,6 +234,10 @@ public class SessionListing extends javax.swing.JFrame {
 
         fillTable(sessions);
     }//GEN-LAST:event_buttonAtualizarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,11 +317,12 @@ public class SessionListing extends javax.swing.JFrame {
     private javax.swing.JButton buttonIncluir;
     private javax.swing.JButton buttonLimparFiltros;
     private javax.swing.JComboBox<String> comboBoxSala;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelHorario;
     private javax.swing.JLabel labelSala;
     private javax.swing.JTable tableSessao;
-    private javax.swing.JTextField textFieldHorario;
+    private javax.swing.JFormattedTextField textFieldHorario;
     // End of variables declaration//GEN-END:variables
 }

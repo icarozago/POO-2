@@ -5,15 +5,13 @@
  */
 package Main;
 
-import Interfaces.SaleInterface;
+import Interfaces.SerializableInterface;
 import Utilities.ReserchUtilities;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,7 +20,7 @@ import javax.swing.JOptionPane;
  *
  * @author Icaro
  */
-public class Sale implements SaleInterface {
+public class Sale implements SerializableInterface {
 
     private Integer id;
 
@@ -69,8 +67,9 @@ public class Sale implements SaleInterface {
     }
 
     @Override
-    public boolean insertSale(Sale sale) {
+    public boolean insert(Object object) {
         try {
+            Sale sale = (Sale) object;
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 
@@ -95,6 +94,16 @@ public class Sale implements SaleInterface {
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar a Venda.");
         }
         return false;
+    }
+
+    @Override
+    public boolean edit(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean delete(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -24,10 +24,14 @@ public class WholeTicket extends Ticket {
     @Override
     protected void impressTicket() {
         DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat hour = new SimpleDateFormat("HH:MM");
-        JOptionPane.showMessageDialog(null, "Ingresso Entrada Inteira\nFilme: "
-                + movie.getName() + "\nSala: "
-                + session.getRoom().getNumber() + "\nData: " + date.format(sale.getDate())
-        + "\nHora: " + hour.format(sale.getDate()) + "\nValor: R$ 16,00");
+        DateFormat hour = new SimpleDateFormat("HH:mm");
+        JOptionPane.showMessageDialog(null, ""
+                + "Ingresso Entrada Inteira"
+                + "\nFilme: " + movie.getName()
+                + "\nSala: " + session.getRoom().getNumber()
+                + "\nHora Sessão: " + session.getTime()
+                + "\nData Venda: " + date.format(sale.getDate())
+                + "\nHora Venda: " + hour.format(sale.getDate())
+                + "\nValor: R$ 16,00");
     }
 }

@@ -6,6 +6,7 @@
 package Main;
 
 import Interfaces.MovieInterface;
+import Interfaces.SerializableInterface;
 import Utilities.ReserchUtilities;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -20,7 +21,7 @@ import javax.swing.JOptionPane;
  *
  * @author Icaro
  */
-public class Movie implements MovieInterface{
+public class Movie implements SerializableInterface, MovieInterface{
     
     private Integer id;
     
@@ -131,8 +132,9 @@ public class Movie implements MovieInterface{
     private static final String MOVIE_DELETE_QUERY = " delete from filme where id = ? ";
 
     @Override
-    public boolean insertMovie(Movie movie) {
+    public boolean insert(Object object) {
         try {
+            Movie movie = (Movie) object;
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 
@@ -168,8 +170,9 @@ public class Movie implements MovieInterface{
     }
 
     @Override
-    public boolean editMovie(Movie movie) {
+    public boolean edit(Object object) {
         try {
+            Movie movie = (Movie) object;
             movie.deleteMovieSessions(movie.getId());
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
@@ -204,8 +207,9 @@ public class Movie implements MovieInterface{
     }
 
     @Override
-    public boolean deleteMovie(Integer movieId) {
+    public boolean delete(Object object) {
         try {
+            Integer movieId = (Integer) object;
             new Movie().deleteMovieSessions(movieId);
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");

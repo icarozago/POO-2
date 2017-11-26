@@ -19,12 +19,6 @@ import javax.swing.JOptionPane;
  */
 public interface MovieInterface {
 
-    public boolean insertMovie(Movie movie);
-
-    public boolean editMovie(Movie movie);
-
-    public boolean deleteMovie(Integer movieId);
-
     public default boolean insertMovieSessions(Movie movie) {
         try {
             for (Session session : movie.getSessions()) {

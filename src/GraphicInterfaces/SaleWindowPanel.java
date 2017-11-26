@@ -176,7 +176,7 @@ public class SaleWindowPanel extends javax.swing.JFrame {
         
         sale.setAmount(amount);
         
-        if (sale.insertSale(sale)) {
+        if (sale.insert(sale)) {
             this.dispose();
         }
     }//GEN-LAST:event_buttonSaveActionPerformed

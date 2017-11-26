@@ -5,7 +5,7 @@
  */
 package Main;
 
-import Interfaces.RoomInterface;
+import Interfaces.SerializableInterface;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  *
  * @author Icaro
  */
-public class Room implements RoomInterface{
+public class Room implements SerializableInterface{
     
     private Integer id;
     
@@ -71,8 +71,9 @@ public class Room implements RoomInterface{
     private static final String ROOM_DELETE_QUERY = " delete from sala where id = ? ";
 
     @Override
-    public boolean insertRoom(Room room) {
+    public boolean insert(Object object) {
         try {
+            Room room = (Room) object;
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 
@@ -91,85 +92,10 @@ public class Room implements RoomInterface{
         return false;
     }
 
-    /*@Override
-    public List<Room> findAllRooms() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement(ROOM_FIND_QUERY);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Room> result = new ArrayList<>();
-
-            while (resultSet.next()) {
-                Room room = new Room();
-                room.setCapacity(resultSet.getInt("lotacao"));
-                room.setNumber(resultSet.getInt("numero"));
-                room.setAir_conditioning(resultSet.getBoolean("ar_condicionado"));
-                result.add(room);
-            }
-
-            return result;
-        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sala encontrada!");
-        }
-        return null;
-    }*/
-
     @Override
-    public Room findRoomByNumber(Integer number) {
+    public boolean edit(Object object) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement(ROOM_FIND_QUERY + " where numero = ?");
-            preparedStatement.setString(1, number.toString());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            
-            resultSet.next();
-            Room room = new Room();
-            room.setId(resultSet.getInt("id"));
-            room.setCapacity(resultSet.getInt("lotacao"));
-            room.setNumber(resultSet.getInt("numero"));
-            room.setAir_conditioning(resultSet.getBoolean("ar_condicionado"));
-
-            return room;
-        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sala encontrada!");
-        }
-        return null;
-    }
-
-    @Override
-    public List<Room> findRoomByCapacity(int capacity) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
-            PreparedStatement preparedStatement = connection.prepareStatement(ROOM_FIND_QUERY + " where lotacao = (?)");
-            preparedStatement.setString(1, String.valueOf(capacity));
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Room> result = new ArrayList<>();
-
-            while (resultSet.next()) {
-                Room room = new Room();
-                room.setId(resultSet.getInt("id"));
-                room.setCapacity(resultSet.getInt("lotacao"));
-                room.setNumber(resultSet.getInt("numero"));
-                room.setAir_conditioning(resultSet.getBoolean("ar_condicionado"));
-                result.add(room);
-            }
-
-            return result;
-        } catch (ClassNotFoundException | SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro, nenhuma Sala encontrada!");
-        }
-        return null;
-    }
-
-    @Override
-    public boolean editRoom(Room room) {
-        try {
+            Room room = (Room) object;
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 
@@ -190,8 +116,9 @@ public class Room implements RoomInterface{
     }
 
     @Override
-    public boolean deleteRoom(int id) {
+    public boolean delete(Object object) {
         try {
+            Integer id = (Integer) object;
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 

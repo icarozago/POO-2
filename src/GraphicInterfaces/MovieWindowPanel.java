@@ -339,18 +339,18 @@ public class MovieWindowPanel extends javax.swing.JFrame {
 
         if (editMode) {
             movie.setId(idMovie);
-            if (movie.editMovie(movie)) {
+            if (movie.edit(movie)) {
                 this.setVisible(false);
             }
         } else {
-            if (movie.insertMovie(movie)) {
+            if (movie.insert(movie)) {
                 this.setVisible(false);
             }
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
-        if (new Movie().deleteMovie(idMovie)) {
+        if (new Movie().delete(idMovie)) {
             this.setVisible(false);
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed

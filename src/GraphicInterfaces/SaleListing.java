@@ -61,6 +61,7 @@ public class SaleListing extends javax.swing.JFrame {
         spinnerFinalDate = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         textFieldFinalValue = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jFormattedTextField3.setText("jFormattedTextField3");
 
@@ -129,6 +130,13 @@ public class SaleListing extends javax.swing.JFrame {
 
         jLabel5.setText("Total Final:");
 
+        jButton1.setText("Inserir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,7 +146,8 @@ public class SaleListing extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonCancel))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -195,7 +204,9 @@ public class SaleListing extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(buttonCancel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonCancel)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -238,6 +249,10 @@ public class SaleListing extends javax.swing.JFrame {
         fillTable(ReserchUtilities.findSalesByParams(movies, initialDate, finalDate, initialValue, finalValue));
         
     }//GEN-LAST:event_buttonUpdateActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new SaleWindowPanel().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,6 +325,7 @@ public class SaleListing extends javax.swing.JFrame {
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonCleanFilters;
     private javax.swing.JButton buttonUpdate;
+    private javax.swing.JButton jButton1;
     private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
