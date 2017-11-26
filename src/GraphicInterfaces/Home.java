@@ -95,6 +95,11 @@ public class Home extends javax.swing.JFrame {
 
         menuItemSell.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, 0));
         menuItemSell.setText("Efetuar Venda");
+        menuItemSell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSellActionPerformed(evt);
+            }
+        });
         menuSale.add(menuItemSell);
 
         menuItemSales.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK));
@@ -155,13 +160,19 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemSessionActionPerformed
 
     private void menuItemSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalesActionPerformed
-        // TODO add your handling code here:
+    SaleListing saleListing = new SaleListing();
+    saleListing.setVisible(true);
     }//GEN-LAST:event_menuItemSalesActionPerformed
 
     private void menuItemMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemMovieActionPerformed
         MovieListing movieListing = new MovieListing();
         movieListing.setVisible(true);
     }//GEN-LAST:event_menuItemMovieActionPerformed
+
+    private void menuItemSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSellActionPerformed
+        SaleWindowPanel saleWindowPanel = new SaleWindowPanel();
+        saleWindowPanel.setVisible(true);
+    }//GEN-LAST:event_menuItemSellActionPerformed
 
     /**
      * @param args the command line arguments

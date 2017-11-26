@@ -50,7 +50,7 @@ public class SaleWindowPanel extends javax.swing.JFrame {
         buttonSave = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         labelMovie.setText("Filme:");
 
@@ -142,8 +142,10 @@ public class SaleWindowPanel extends javax.swing.JFrame {
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         Sale sale = new Sale();
         sale.setDate(new Date());
-        int numberHalfTickets = Integer.parseInt(textFieldHalfTicket.getText());
-        int numberWholeTickets = Integer.parseInt(textFieldWholeTicket.getText());
+        int numberHalfTickets = textFieldHalfTicket.getText().isEmpty() ? 0 
+                : Integer.parseInt(textFieldHalfTicket.getText());
+        int numberWholeTickets = textFieldWholeTicket.getText().isEmpty() ? 0 
+                : Integer.parseInt(textFieldWholeTicket.getText());
         List<Ticket> tickets = new ArrayList<>();
 
         Movie movie = ReserchUtilities.findMovieByName(

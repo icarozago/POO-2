@@ -64,7 +64,7 @@ public class SaleListing extends javax.swing.JFrame {
 
         jFormattedTextField3.setText("jFormattedTextField3");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
