@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Utilities;
 
 import Main.HalfTicket;
@@ -27,12 +22,14 @@ import java.util.List;
 import javafx.util.Pair;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Icaro
- */
 public class ReserchUtilities {
 
+    /**
+     * Busca no banco de dados todos os números das salas.
+     *
+     * @return
+     *  Lista com os números de todas as salas.
+     */
     public static List<String> findAllRoomsNumbers() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -53,6 +50,12 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados todas as salas.
+     * 
+     * @return
+     *  Lista contendos todas as salas.
+     */
     public static List<Room> findAllRooms() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -78,6 +81,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados a sala pelo número.
+     * 
+     * @param number
+     *  Número da sala.
+     * 
+     * @return
+     *  A sala com esse número.
+     */
     public static Room findRoomByNumber(Integer number) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -101,6 +113,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados a sala pelo id.
+     * 
+     * @param id
+     *  Id da sala.
+     * 
+     * @return
+     *  A sala com esse id.
+     */
     public static Room findRoomById(Integer id) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -170,6 +191,17 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados as sessões de acordo com os parâmetros.
+     * 
+     * @param roomId 
+     *  Id da sala.
+     * @param schedule
+     *  Hora da sessão.
+     * 
+     * @return
+     *  Lista das sessões encontradas.
+     */
     public static List<Session> findSessionsByParams(String schedule, Integer roomId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -215,6 +247,17 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados a primeira sessão de acordo com os parâmetros.
+     * 
+     * @param roomId 
+     *  Id da sala.
+     * @param schedule
+     *  Hora da sessão.
+     * 
+     * @return
+     *  A primeira sessão encontrada.
+     */
     public static Session findSessionByParams(String schedule, Integer roomId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -257,6 +300,12 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados todas as sessões.
+     * 
+     * @return
+     *  Lista das sessões encontradas.
+     */
     public static List<Session> findAllSessions() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -281,6 +330,12 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados os nomes dos filmes que estão em cartaz.
+     * 
+     * @return
+     *  Lista dos nomes dos filmes encontrados.
+     */
     public static List<String> getInTheaterMoviesNames() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -298,6 +353,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados o filme pelo id.
+     * 
+     * @param id  
+     *  Id do filme.
+     * 
+     * @return
+     *  Filme encontrado.
+     */
     public static Movie findMovieById(Integer id) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -326,6 +390,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados as sessões do filme.
+     * 
+     * @param movieId 
+     *  Id do filme.
+     * 
+     * @return
+     *  Lista das sessões encontradas.
+     */
     public static List<Session> findMovieSessions(Integer movieId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -351,6 +424,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados o filme pelo nome.
+     * 
+     * @param name
+     *  Nome do filme.
+     * 
+     * @return
+     *  Filme encontrado.
+     */
     public static Movie findMovieByName(String name) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -379,6 +461,12 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados todos os filmes.
+     * 
+     * @return
+     *  Lista dos filmes encontrados.
+     */
     public static List<Movie> findAllMovies() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -411,6 +499,27 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados os filmes de acordo com os parâmetros.
+     * 
+     * @param ageRating
+     *  Classificação.
+     * @param firstDate
+     *  Data inicial de exibição.
+     * @param inTheater
+     *  Flag indicando se o filme está em cartaz.
+     * @param lastDate
+     *  Data final de exibição.
+     * @param name
+     *  Nome.
+     * @param sessionFinish
+     *  Hora final das sessões.
+     * @param sessionInit
+     *  Hora de inicio das sessões.
+     * 
+     * @return
+     *  Lista dos filmes encontrados.
+     */
     public static List<Movie> findMoviesByParams(String name, String ageRating,
             String sessionInit, String sessionFinish, String firstDate,
             String lastDate, Boolean inTheater) {
@@ -494,6 +603,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados as sessões pelo Filme.
+     * 
+     * @param movieId 
+     *  Id do filme.
+     * 
+     * @return
+     *  Lista das sessões encontradas.
+     */
     public static List<Session> findSessionsByMovie(Integer movieId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -515,6 +633,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados a sessão pelo id.
+     * 
+     * @param sessionId
+     *  Id da sessão.
+     * 
+     * @return
+     *  Sessão encontrada.
+     */
     public static Session findSessionById(Integer sessionId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -537,6 +664,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados a venda pela data e hora.
+     * 
+     * @param date
+     *  Data hora da venda.
+     * 
+     * @return
+     *  Venda encontrada.
+     */
     public static Sale findSaleByTime(Date date) {
         try {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -561,6 +697,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados a venda pelo id.
+     * 
+     * @param saleId 
+     *  Id da venda.
+     * 
+     * @return
+     *  Venda encontrada.
+     */
     public static Sale findSaleById(Integer saleId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -584,6 +729,15 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados os ingressos pelo id da venda.
+     * 
+     * @param saleId 
+     *  Id da venda.
+     * 
+     * @return
+     *  Lista dos ingressos encontrados.
+     */
     public static List<Ticket> findTicketsBySaleId(Integer saleId) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -628,6 +782,23 @@ public class ReserchUtilities {
         return null;
     }
 
+    /**
+     * Busca no banco de dados as vendas de acordo com os parâmetros.
+     * 
+     * @param finalDate
+     *  Data hora final da venda.
+     * @param finalValue
+     *  Valor maximo da venda.
+     * @param initialDate
+     *  Data hora inicial da venda.
+     * @param initialValue
+     *  Valor mínimo da venda.
+     * @param movies
+     *  Filmes das vendas.
+     * 
+     * @return
+     *  Lista das vendas encontradas.
+     */
     public static List<Sale> findSalesByParams(List<Movie> movies, Date initialDate, Date finalDate, Double initialValue, Double finalValue) {
         try {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
