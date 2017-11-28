@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Main;
 
 import Interfaces.MovieInterface;
@@ -17,10 +13,6 @@ import java.util.List;
 import javafx.util.Pair;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Icaro
- */
 public class Movie implements SerializableInterface, MovieInterface{
     
     private Integer id;
@@ -123,14 +115,29 @@ public class Movie implements SerializableInterface, MovieInterface{
         this.id = id;
     }
     
+    /**
+     * Query para selecionar todas os filmes
+     */
     public static final String MOVIE_FIND_QUERY = " select * from filme ";
     
+    /**
+     * Query para alterar filmes
+     */
     private static final String MOVIE_EDIT_QUERY = " update filme set nome = ?, em_cartaz = ?, data_inicio = ?, data_fim = ?, classificacao = ?, idioma = ?, genero = ?, duracao = ?, sinopse = ? where id = ? ";
     
+    /**
+     * Query para inserir filmes
+     */
     private static final String MOVIE_INSERT_QUERY = " insert into filme (nome, em_cartaz, data_inicio, data_fim, classificacao, idioma, genero, duracao, sinopse) values (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
     
+     /**
+     * Query para deletar filmes
+     */
     private static final String MOVIE_DELETE_QUERY = " delete from filme where id = ? ";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean insert(Object object) {
         try {
@@ -169,6 +176,9 @@ public class Movie implements SerializableInterface, MovieInterface{
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean edit(Object object) {
         try {
@@ -206,6 +216,9 @@ public class Movie implements SerializableInterface, MovieInterface{
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean delete(Object object) {
         try {

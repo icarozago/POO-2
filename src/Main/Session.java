@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Main;
 
 import Interfaces.SerializableInterface;
@@ -13,10 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Icaro
- */
+
 public class Session implements SerializableInterface {
 
     private Integer id;
@@ -49,14 +42,27 @@ public class Session implements SerializableInterface {
         this.time = time;
     }
 
+    /**
+     * Query geral de seleção das sessoes
+     */
     public static final String SESSION_FIND_QUERY = " select * from sessao ";
 
+     /**
+     * Query para insercao a sesssao
+     */
     private static final String SESSION_INSERT_QUERY = " insert into sessao (hora_sessao, salaId) values (?, ?)";
-    
+    /**
+     * Query para atualizacao a sesssao
+     */
     private static final String SESSION_EDIT_QUERY = " update sessao set hora_sessao = ?, salaId = ? where id = ?";
-    
+    /**
+     * Query para deletar a sesssao
+     */
     private static final String SESSION_DELETE_QUERY = " delete from sessao where id = ?";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean insert(Object object) {
         try {
@@ -78,7 +84,9 @@ public class Session implements SerializableInterface {
         }
         return false;
     }
-
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean edit(Object object) {
         try {
@@ -102,6 +110,9 @@ public class Session implements SerializableInterface {
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean delete(Object object) {
         try {

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Main;
 
 import Interfaces.SerializableInterface;
@@ -16,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Icaro
- */
 public class Room implements SerializableInterface{
     
     private Integer id;
@@ -62,14 +54,29 @@ public class Room implements SerializableInterface{
         this.id = id;
     }
     
+    /**
+     * Query para selecionar todas as salas
+     */
     public static final String ROOM_FIND_QUERY = " select * from sala ";
 
+    /**
+     * Query para inserir as salas
+     */
     private static final String ROOM_INSERT_QUERY = " insert into sala (lotacao, numero, ar_condicionado) values (?, ?, ?) ";
     
+     /**
+     * Query para atuaizar as salas
+     */
     private static final String ROOM_EDIT_QUERY = " update sala set lotacao = ?, numero = ?, ar_condicionado = ? where id = ? ";
     
+     /**
+     * Query para deletar as salas
+     */
     private static final String ROOM_DELETE_QUERY = " delete from sala where id = ? ";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean insert(Object object) {
         try {
@@ -92,6 +99,9 @@ public class Room implements SerializableInterface{
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean edit(Object object) {
         try {
@@ -115,6 +125,9 @@ public class Room implements SerializableInterface{
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean delete(Object object) {
         try {

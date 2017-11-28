@@ -1,28 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Main;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Icaro
- */
+
 public class WholeTicket extends Ticket {
+    /**
+     * Cria um novo ticket (construtor)
+     * @param movie
+     * @param session
+     * @param sale 
+     */
     public WholeTicket (Movie movie, Session session, Sale sale) {
         this.movie = movie;
         this.value = 16.00;
         this.session = session;
         this.sale = sale;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void impressTicket() {
+        /**
+         * Imprime o ticket na tela
+         */
         DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat hour = new SimpleDateFormat("HH:mm");
         JOptionPane.showMessageDialog(null, ""

@@ -50,9 +50,14 @@ public abstract class Ticket {
     public void setSale(Sale sale) {
         this.sale = sale;
     }
-    
+    /**
+     * Insere o ticket
+     * @param ticket
+     * @return 
+     */
     public boolean insertTicket(Ticket ticket) {
          try {
+             
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cinema", "root", "123456");
 

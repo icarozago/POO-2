@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Main;
 
 import Interfaces.SerializableInterface;
@@ -16,10 +12,6 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Icaro
- */
 public class Sale implements SerializableInterface {
 
     private Integer id;
@@ -30,8 +22,14 @@ public class Sale implements SerializableInterface {
 
     private double amount;
 
+    /**
+     * Query para inserir venda
+     */
     private static final String SALE_INSERT_QUERY = "Insert into venda (valor) values (?)";
 
+    /**
+     * Query para selecionar todas as venda
+     */
     public static final String SALE_FIND_QUERY = "Select * from venda ";
 
     public List<Ticket> getTickets() {
@@ -66,6 +64,9 @@ public class Sale implements SerializableInterface {
         this.id = id;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean insert(Object object) {
         try {
@@ -96,11 +97,17 @@ public class Sale implements SerializableInterface {
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean edit(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean delete(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
