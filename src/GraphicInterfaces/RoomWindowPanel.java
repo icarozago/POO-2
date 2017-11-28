@@ -171,11 +171,11 @@ public class RoomWindowPanel extends javax.swing.JFrame {
 
         if (editMode) {
             if (room.edit(room)) {
-                this.setVisible(false);
+                this.dispose();
             }
         } else {
             if (room.insert(room)) {
-                this.setVisible(false);
+                this.dispose();
             }
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
@@ -183,7 +183,7 @@ public class RoomWindowPanel extends javax.swing.JFrame {
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         Room room = new Room();
         if (room.delete(roomId)) {
-            this.setVisible(false);
+            this.dispose();
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 

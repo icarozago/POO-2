@@ -315,6 +315,12 @@ public class RoomListing extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Preenche a tabela de acordo com a lista de salas recebidas por parâmetro.
+     *
+     * @param rooms
+     *  Lista de salas a serem incluídas na tabela.
+     */
     private void fillTable(List<Room> rooms) {
 
         DefaultTableModel defaultTableModel = (DefaultTableModel) tableSalas.getModel();
