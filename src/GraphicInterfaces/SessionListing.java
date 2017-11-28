@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
 import Main.Room;
@@ -11,14 +6,10 @@ import Utilities.ReserchUtilities;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Icaro
- */
 public class SessionListing extends javax.swing.JFrame {
 
     /**
-     * Creates new form SessionListing
+     * Cria um novo form SessionListing.
      */
     public SessionListing() {
         initComponents();
@@ -197,26 +188,56 @@ public class SessionListing extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Insere uma nova Session.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIncluirActionPerformed
         SessionWindowPanel sessionWindowPanel = createSessionWindowPanel(true);
         sessionWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonIncluirActionPerformed
 
+    /**
+     * Edita a Session selecionado.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarActionPerformed
         SessionWindowPanel sessionWindowPanel = createSessionWindowPanel(false);
         sessionWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonEditarActionPerformed
 
+    /**
+     * Deleta a Session selecionado.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirActionPerformed
         SessionWindowPanel sessionWindowPanel = createSessionWindowPanel(false);
         sessionWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonExcluirActionPerformed
 
+    /**
+     * Limpa todos os filtros de SessionListing.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonLimparFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparFiltrosActionPerformed
         textFieldHorario.setText("");
         comboBoxSala.setSelectedIndex(0);
     }//GEN-LAST:event_buttonLimparFiltrosActionPerformed
 
+    /**
+     * Atualiza a tabela em SessionListing.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAtualizarActionPerformed
         String scadule = null;
         Integer roomId = null;
@@ -292,6 +313,12 @@ public class SessionListing extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Preenche a tabela de acordo com a lista de sessões recebidas por parâmetro.
+     *
+     * @param sessions
+     *  Lista de sessões a serem incluídas na tabela.
+     */
     private void fillTable(List<Session> sessions) {
 
         DefaultTableModel defaultTableModel = (DefaultTableModel) tableSessao.getModel();

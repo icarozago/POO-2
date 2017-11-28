@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
 import Main.Session;
 import Utilities.ReserchUtilities;
 
-/**
- *
- * @author Icaro
- */
 public class SessionWindowPanel extends javax.swing.JFrame {
 
     private final boolean editMode;
@@ -19,7 +10,7 @@ public class SessionWindowPanel extends javax.swing.JFrame {
     private final Integer sessionId;
 
     /**
-     * Creates new form SessionWindowPanel
+     * Cria um novo form SessionWindowPanel.
      */
     public SessionWindowPanel() {
         initComponents();
@@ -28,6 +19,12 @@ public class SessionWindowPanel extends javax.swing.JFrame {
         sessionId = null;
     }
 
+    /**
+     * Cria um novo form SessioWindowPanel em modo de edição.
+     * 
+     * @param session 
+     *  A Session que será alterado.
+     */
     public SessionWindowPanel(Session session) {
         initComponents();
         ReserchUtilities.findAllRoomsNumbers().forEach((room) -> comboBoxRoom.addItem(room));
@@ -143,6 +140,12 @@ public class SessionWindowPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxRoomActionPerformed
 
+    /**
+     * Salva as alterações em Session.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         Session session = new Session();
 
@@ -162,6 +165,12 @@ public class SessionWindowPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
+    /**
+     * Deleta a Session selecionado.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         Session session = new Session();
         if (session.delete(sessionId)) {
@@ -169,6 +178,12 @@ public class SessionWindowPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
+    /**
+     * Fecha a SessionWindowPanel.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

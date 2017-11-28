@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class SaleWindowPanel extends javax.swing.JFrame {
 
     /**
-     * Creates new form SaleWindowPanel
+     * Cria um novo form SaleWindowPanel
      */
     public SaleWindowPanel() {
         initComponents();
@@ -135,10 +135,22 @@ public class SaleWindowPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Fecha o SaleWindowPanel.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonCancelActionPerformed
 
+    /**
+     * Salva as alterações em Sale.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         Sale sale = new Sale();
         sale.setDate(new Date());

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
 import Main.Movie;
@@ -19,14 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Icaro
- */
 public class SaleListing extends javax.swing.JFrame {
 
     /**
-     * Creates new form SaleListing
+     * Cria um novo form SaleListing.
      */
     public SaleListing() {
         initComponents();
@@ -217,6 +208,12 @@ public class SaleListing extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_buttonCancelActionPerformed
 
+    /**
+     * Limpa todos os filtros de SaleListing.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonCleanFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCleanFiltersActionPerformed
         LocalDate initialDate = LocalDate.now().minusYears(50);
         LocalDate finalDate = LocalDate.now().plusYears(50);
@@ -229,6 +226,12 @@ public class SaleListing extends javax.swing.JFrame {
         textFieldFinalValue.setText("");
     }//GEN-LAST:event_buttonCleanFiltersActionPerformed
 
+    /**
+     * Atualiza a tabela em SaleListing.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
         Date initialDate = (Date) spinnerInitialDate.getValue();
         Date finalDate = (Date) spinnerFinalDate.getValue();
@@ -289,6 +292,12 @@ public class SaleListing extends javax.swing.JFrame {
         });
     }
     
+    /**
+     * Preenche a tabela de acordo com a lista de vendas recebidas por parâmetro.
+     *
+     * @param sales
+     *  Lista de vendas a serem incluídas na tabela.
+     */    
     private void fillTable(List<Sale> sales) {
         DefaultTableModel defaultTableModel = (DefaultTableModel) tableSales.getModel();
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
 import Main.Movie;
@@ -11,14 +6,10 @@ import Utilities.ReserchUtilities;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Icaro
- */
 public class MovieListing extends javax.swing.JFrame {
 
     /**
-     * Creates new form MovieListing
+     * Cria um novo form MovieListing.
      */
     public MovieListing() {
         initComponents();
@@ -275,6 +266,12 @@ public class MovieListing extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Limpa todos os filtros de MovieListing.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonCleanFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCleanFiltersActionPerformed
         textFieldFirstDate.setText("");
         textFieldLastDate.setText("");
@@ -285,11 +282,23 @@ public class MovieListing extends javax.swing.JFrame {
         comboBoxLastSession.setSelectedIndex(0);
     }//GEN-LAST:event_buttonCleanFiltersActionPerformed
 
+    /**
+     * Insere um novo Movie.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInsertActionPerformed
         MovieWindowPanel movieWindowPanel = new MovieWindowPanel();
         movieWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonInsertActionPerformed
 
+    /**
+     * Edita o Movie selecionado.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
         Movie movie = ReserchUtilities.findMovieByName(tableMovies.getValueAt(
                 tableMovies.getSelectedRow(), 1).toString());
@@ -297,13 +306,25 @@ public class MovieListing extends javax.swing.JFrame {
         movieWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonEditActionPerformed
 
+    /**
+     * Deleta o Movie selecionado.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         Movie movie = ReserchUtilities.findMovieByName(tableMovies.getValueAt(
                 tableMovies.getSelectedRow(), 1).toString());
         MovieWindowPanel movieWindowPanel = new MovieWindowPanel(movie);
         movieWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonDeleteActionPerformed
-
+    
+    /**
+     * Atualiza a tabela em MovieListing.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
         fillTable(ReserchUtilities.findMoviesByParams(textFieldName.getText(),
                 comboBoxAgeRating.getSelectedItem().toString(),
@@ -353,6 +374,12 @@ public class MovieListing extends javax.swing.JFrame {
         });
     }
     
+    /**
+     * Preenche a tabela de acordo com a lista de filmes recebidas por parâmetro.
+     *
+     * @param movies
+     *  Lista de filmes a serem incluídas na tabela.
+     */
     private void fillTable(List<Movie> movies) {
         DefaultTableModel defaultTableModel = (DefaultTableModel) tableMovies.getModel();
 

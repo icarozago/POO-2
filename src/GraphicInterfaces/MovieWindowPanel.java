@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
 import Main.Movie;
@@ -20,10 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-/**
- *
- * @author Icaro
- */
 public class MovieWindowPanel extends javax.swing.JFrame {
 
     Integer idMovie;
@@ -31,7 +22,7 @@ public class MovieWindowPanel extends javax.swing.JFrame {
     boolean editMode;
 
     /**
-     * Creates new form MovieWindowPanel
+     * Cria um novo form MovieWindowPanel.
      */
     public MovieWindowPanel() {
         editMode = false;
@@ -41,7 +32,13 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         tableSessions.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         fillTable(ReserchUtilities.findAllSessions(), null);
     }
-
+    
+    /**
+     * Cria um novo form MovieWindowPanel em modo de edição.
+     *
+     * @param movie 
+     *  O Movie que será alterado.
+     */
     public MovieWindowPanel(Movie movie) {
         editMode = true;
         idMovie = movie.getId();
@@ -311,6 +308,12 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Salva as alterações em Movie.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         Movie movie = new Movie();
         movie.setAgeRating(comboBoxAgeRating.getSelectedItem().toString());
@@ -349,12 +352,24 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
+    /**
+     * Deleta o Movie selecionado.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         if (new Movie().delete(idMovie)) {
             this.setVisible(false);
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
+    /**
+     * Fecha o MovieWindowPanel.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonCancelActionPerformed
@@ -363,6 +378,14 @@ public class MovieWindowPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textFieldDataInicioActionPerformed
 
+    /**
+     * Preenche a tabela de MoviewWindowPanel com as Sessões.
+     * 
+     * @param sessions
+     * Todas as sessões.
+     * @param activatedSessions
+     * Todas as sessões ativas para o Filme selecionado.
+     */
     private void fillTable(List<Session> sessions, List<Session> activatedSessions) {
 
         DefaultTableModel defaultTableModel = (DefaultTableModel) tableSessions.getModel();

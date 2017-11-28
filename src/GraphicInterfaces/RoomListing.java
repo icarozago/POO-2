@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
 import Main.Room;
@@ -10,14 +5,10 @@ import Utilities.ReserchUtilities;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Icaro
- */
 public class RoomListing extends javax.swing.JFrame {
 
     /**
-     * Creates new form RoomListing
+     * Cria um novo form RoomListing.
      */
     public RoomListing() {
         initComponents();
@@ -208,16 +199,34 @@ public class RoomListing extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Insere um novo Room.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIncluirActionPerformed
         RoomWindowPanel roomWindowPanel = createRoomWindowPanel(true);
         roomWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonIncluirActionPerformed
 
+    /**
+     * Edita o Room selecionado.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAlterarActionPerformed
         RoomWindowPanel roomWindowPanel = createRoomWindowPanel(false);
         roomWindowPanel.setVisible(true);
     }//GEN-LAST:event_buttonAlterarActionPerformed
 
+    /**
+     * Deleta o Room selecionado.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirActionPerformed
         RoomWindowPanel roomWindowPanel = createRoomWindowPanel(false);
         roomWindowPanel.setVisible(true);
@@ -227,12 +236,24 @@ public class RoomListing extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_radioButtonSimActionPerformed
 
+    /**
+     * Limpa todos os filtros de RoomListing.
+     * 
+     * @param evt 
+     *  Evento do botão.
+     */
     private void buttonLimparFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparFiltrosActionPerformed
         textFieldNumero.setText("");
         radioButtonNao.setSelected(false);
         radioButtonSim.setSelected(false);
     }//GEN-LAST:event_buttonLimparFiltrosActionPerformed
 
+    /**
+     * Atualiza a tabela em RoomListing.
+     * 
+     * @param evt
+     *  Evento do botão. 
+     */
     private void buttonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAtualizarActionPerformed
         Boolean airConditioning = null;
         Integer number = null;

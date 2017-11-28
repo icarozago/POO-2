@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterfaces;
 
-/**
- *
- * @author Icaro
- */
 public class Home extends javax.swing.JFrame {
 
     /**
-     * Creates new form Home
+     * Cria um novo form Home
      */
     public Home() {
         initComponents();
@@ -145,30 +136,67 @@ public class Home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_menuRoomActionPerformed
 
+    /**
+     * Fecha o programa.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void menuExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuExitMouseClicked
         System.exit(0);
     }//GEN-LAST:event_menuExitMouseClicked
 
+    /**
+     * Inicializa a Interface Grafica de Room.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void menuItemRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRoomActionPerformed
         RoomListing roomListing = new RoomListing();
         roomListing.setVisible(true);
     }//GEN-LAST:event_menuItemRoomActionPerformed
 
+    /**
+     * 
+     * Inicializa a Interface Grafica de Session.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void menuItemSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSessionActionPerformed
         SessionListing sessionListing = new SessionListing();
         sessionListing.setVisible(true);
     }//GEN-LAST:event_menuItemSessionActionPerformed
 
+    /**
+     * Inicializa a Interface Grafica de Sales.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void menuItemSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalesActionPerformed
     SaleListing saleListing = new SaleListing();
     saleListing.setVisible(true);
     }//GEN-LAST:event_menuItemSalesActionPerformed
 
+    /**
+     * Inicializa a Interface Grafica de Movie.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void menuItemMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemMovieActionPerformed
         MovieListing movieListing = new MovieListing();
         movieListing.setVisible(true);
     }//GEN-LAST:event_menuItemMovieActionPerformed
 
+    /**
+     * Inicializa a Interface Grafica de Sale.
+     * 
+     * @param evt
+     *  Evento do botão.
+     */
     private void menuItemSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSellActionPerformed
         SaleWindowPanel saleWindowPanel = new SaleWindowPanel();
         saleWindowPanel.setVisible(true);
